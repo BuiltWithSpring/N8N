@@ -1,0 +1,18 @@
+{
+  "id": "eRlZQwhkOC6hmlfl",
+  "name": "Mockingbird Auth account",
+  "type": "httpHeaderAuth",
+  "data": {
+    "name": "",
+    "value": ""
+  },
+  "ownedBy": {
+    "type": "personal",
+    "projectId": "Hlk219ODF6U9W6U6",
+    "projectName": "Spring Lam <spring.lam@n8n.io>",
+    "personalEmail": "spring.lam@n8n.io"
+  },
+  "isGlobal": false,
+  "isResolvable": false,
+  "resolvableAllowFallback": false
+}
