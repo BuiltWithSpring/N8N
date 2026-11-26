@@ -256,13 +256,15 @@ footer.foot{padding-block:var(--space-24) var(--space-32);color:var(--fg2);font-
 
 <!-- 7 done -->
 <section class="screen" data-step="7" aria-labelledby="h7">
-  <div class="capsule-row"><span class="capsule accent">Done</span><span class="capsule">One more thing</span></div>
-  <h1 class="q" id="h7" tabindex="-1">Thanks. Now send me your answers</h1>
-  <p class="help">This page cannot send them for you. Copy the text below and paste it in our group chat or text it to me.</p>
-  <textarea class="summary" id="summary" readonly aria-label="Your answers"></textarea>
-  <div class="actions">
-    <button class="btn" id="copy" type="button">Copy my answers</button>
-    <span class="ok" id="copied" role="status"></span>
+  <div class="capsule-row"><span class="capsule accent">Done</span><span class="capsule">Thank you</span></div>
+  <h1 class="q" id="h7" tabindex="-1">Thanks, that helps a lot</h1>
+  <p class="help" id="sendStatus" role="status">Sending your answers…</p>
+  <div id="fallback" hidden>
+    <textarea class="summary" id="summary" readonly aria-label="Your answers"></textarea>
+    <div class="actions">
+      <button class="btn" id="copy" type="button">Copy my answers</button>
+      <span class="ok" id="copied" role="status"></span>
+    </div>
   </div>
   <div class="panel">
     <h2>Before the session</h2>
@@ -300,7 +302,8 @@ var WF=[
  ["assistant","Chat message","Telegram or Slack assistant","Message a bot to add calendar events, tasks or notes in your own apps."],
  ["inbox","New email","Inbox triage with paths","Each new email is classified, then labeled, answered with a draft or flagged to you if urgent."]];
 var BLOCKS=["creating accounts","connecting my apps","not knowing what to build","finding the time","Nothing, I am ready"];
-var KEY="n8n-survey-v1";
+var KEY="n8n-survey-v1",SENT="n8n-survey-sent-v1";
+var HOOK="https://builtwithspring.app.n8n.cloud/webhook/workshop-survey-7f3a";
 var A={tools:[],other:"",level:"",task:"",votes:[],blocker:"",name:""};
 var step=0,maxStep=7;
 function $(i){return document.getElementById(i)}
@@ -394,6 +397,20 @@ function buildSummary(){
   return lines.join("\n");
 }
 
+
+function wasSent(){try{return localStorage.getItem(SENT)==="1"}catch(e){return false}}
+function markSent(){try{localStorage.setItem(SENT,"1")}catch(e){}}
+function statusOk(){$("sendStatus").textContent="Sent. Thank you, I have your answers.";$("fallback").hidden=true}
+function statusFail(){$("sendStatus").textContent="That did not send. Please copy your answers below and paste them in our group chat.";$("summary").value=buildSummary();$("fallback").hidden=false}
+function submitAnswers(){
+  if(wasSent()){statusOk();return}
+  $("sendStatus").textContent="Sending your answers…";$("fallback").hidden=true;
+  var ctl=window.AbortController?new AbortController():null,timer=setTimeout(function(){if(ctl)ctl.abort()},12000);
+  fetch(HOOK,{method:"POST",mode:"cors",headers:{"Content-Type":"application/json"},body:JSON.stringify({name:A.name.trim(),text:buildSummary(),answers:A}),signal:ctl?ctl.signal:undefined})
+   .then(function(r){clearTimeout(timer);if(!r.ok)throw new Error("bad status");markSent();statusOk()})
+   .catch(function(){clearTimeout(timer);statusFail()});
+}
+
 /* navigation */
 function show(){
   document.querySelectorAll(".screen").forEach(function(s){s.classList.toggle("on",+s.dataset.step===step)});
@@ -404,7 +421,7 @@ function show(){
   if(step===7)segs.forEach(function(s){s.classList.add("on")});
   $("stepLabel").textContent=step===0?"":step===7?"Done":step===6?"Last step":"Question "+step+" of 5";
   $("back").style.visibility=step>1?"visible":"hidden";
-  if(step===7)$("summary").value=buildSummary();
+  if(step===7){$("summary").value=buildSummary();if(!window.__sentOnce){window.__sentOnce=true;submitAnswers()}}
   sync();
   window.scrollTo(0,0);
   var h=document.querySelector('.screen.on h1');if(h)h.focus({preventScroll:true});
@@ -435,7 +452,7 @@ $("copy").addEventListener("click",function(){
   try{navigator.clipboard.writeText(t).then(function(){msg.textContent="Copied. Paste it in the chat."},fallback)}catch(e){fallback()}
 });
 $("again").addEventListener("click",function(){A={tools:[],other:"",level:"",task:"",votes:[],blocker:"",name:""};try{localStorage.removeItem(KEY)}catch(e){}
-  $("task").value="";$("blocker").value="";$("name").value="";$("toolOther").value="";$("copied").textContent="";buildLevels();step=0;show()});
+  $("task").value="";$("blocker").value="";$("name").value="";$("toolOther").value="";$("copied").textContent="";try{localStorage.removeItem(SENT)}catch(e){}window.__sentOnce=false;$("fallback").hidden=true;buildLevels();step=0;show()});
 show();
 })();
 </script>
