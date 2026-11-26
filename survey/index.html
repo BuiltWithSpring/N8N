@@ -292,18 +292,18 @@ var LEVELS=[
  ["dabbled","Dabbled","I have tried Zapier, Make or Shortcuts once or twice"],
  ["comfortable","Comfortable","I have a few automations running today"],
  ["technical","Technical","I write code or work with APIs"]];
-var TASKCHIPS=["send the same follow-up email","copy form answers into a spreadsheet","sort my inbox","post the same update in three places","chase people for replies","I am not sure yet"];
+var TASKCHIPS=["reply to every new form entry","log each invoice email in a sheet","chase people who have not replied","copy new leads into my CRM","chase approvals by hand","I am not sure yet"];
 var WF=[
  ["form","Form submission","Form to spreadsheet with an instant alert","A form entry lands in Google Sheets and pings you on Slack or email right away."],
- ["inbox","New email","AI inbox sorter","Each new email gets a label and a drafted reply based on what it says."],
- ["lead","New lead","Lead intake and routing","A sign-up is enriched, scored, saved to your CRM and sent to the right person."],
- ["docs","Chat message","Ask my documents","A chat bot answers questions using the files in a Google Drive folder."],
+ ["lead","New lead","Lead intake and routing","A sign-up is checked against your rules, saved to your CRM and sent to the right person."],
+ ["approve","Request submitted","Approval with a Slack button","A request waits until someone presses Approve or Reject, then updates your tools."],
+ ["invoice","New invoice email","Invoice and receipt capture","AI reads each attached invoice and logs the vendor, date and total in a sheet."],
+ ["wait","Message sent","Follow-up that waits","Send a message, wait three days, then nudge only the people who have not replied."],
  ["assistant","Chat message","Telegram or Slack assistant","Message a bot to add calendar events, tasks or notes in your own apps."],
- ["invoice","New email attachment","Invoice and receipt capture","AI reads each attached invoice and logs the vendor, date and total in a sheet."],
- ["approve","Request submitted","Approval with a Slack button","A request waits for someone to press Approve or Reject, then updates your tools."],
- ["meeting","Meeting ends","Meeting notes to tasks","A call summary becomes a task list with owners, sent to Notion or your inbox."],
- ["feedback","New response","Feedback sorter","AI tags each survey response by sentiment and sends the unhappy ones to you first."],
- ["post","New blog post","Blog post to social drafts","A new post becomes drafts for LinkedIn and X that wait for your approval."]];
+ ["voice","Voice note or photo","Capture by voice or photo","Send a voice note or a receipt photo to a bot and it is logged in Notion or a sheet."],
+ ["inbox","New email","Inbox triage with paths","Each new email is classified, then labeled, answered with a draft or flagged to you if urgent."],
+ ["files","Email from a client","Attachments to the right folder","Attachments are saved to a Drive folder by sender and logged in a sheet. No AI needed."],
+ ["docs","Chat message","Always-on documents bot","A bot in Slack or Telegram answers questions from a Drive folder at any hour."]];
 var BLOCKS=["creating accounts","connecting my apps","not knowing what to build","finding the time","Nothing, I am ready"];
 var KEY="n8n-survey-v1";
 var A={tools:[],other:"",level:"",task:"",votes:[],blocker:"",name:""};
