@@ -142,14 +142,15 @@ h1.q{font-size:32px;line-height:36px;margin-bottom:var(--space-8);outline:none}
 
 /* inputs */
 .field{display:block;width:100%;background:var(--bg);border:0;border-radius:var(--r-xl);padding:var(--space-24);font-size:16px;line-height:24px;box-shadow:inset 4px 4px 8px 0 var(--deb-tl),inset -4px -4px 8px 0 var(--deb-br)}
-textarea.field{resize:vertical;min-height:120px}
+textarea.field{resize:vertical;min-height:96px}
 .field::placeholder{color:var(--fg2);opacity:1}
 .lead{font-size:20px;line-height:24px;font-weight:500;margin-bottom:var(--space-12);display:block}
 .blank{display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--space-8)}
 .small{font-size:14px;line-height:18px;color:var(--fg2);margin:var(--space-24) 0 var(--space-8)}
 .chiprow{display:flex;flex-wrap:wrap;gap:var(--space-8)}
-.chip{border:1px solid var(--line);background:var(--bg2);border-radius:var(--r-full);padding:var(--space-8) var(--space-16);cursor:pointer;font-size:14px;line-height:18px;min-height:40px}
+.chip{border:1px solid var(--line);background:var(--bg2);border-radius:var(--r-full);padding:var(--space-12) var(--space-16);cursor:pointer;font-size:14px;line-height:18px;min-height:44px}
 .chip:hover{border-color:var(--line-strong)}
+@media (max-width:640px){#taskChips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:var(--space-8);margin-right:calc(-1*max(16px,env(safe-area-inset-right,0px)));padding-right:16px;scrollbar-width:none}#taskChips::-webkit-scrollbar{display:none}#taskChips .chip{flex:none;white-space:nowrap}}
 .other{margin-top:var(--space-12)}
 .other .field{padding:var(--space-16) var(--space-24);border-radius:var(--r-lg)}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
@@ -220,10 +221,10 @@ footer.foot{padding-block:var(--space-24) var(--space-32);color:var(--fg2);font-
   <div class="capsule-row"><span class="capsule accent">3 of 5</span><span class="capsule">Finish the sentence</span></div>
   <h1 class="q" id="h3q" tabindex="-1">What is one task you wish ran itself?</h1>
   <p class="help">Small and boring is perfect. This is the idea you will map and build.</p>
-  <label class="lead" for="task">I wish I did not have to…</label>
-  <textarea class="field" id="task" maxlength="240" rows="3" placeholder="…copy form answers into a spreadsheet every week"></textarea>
-  <p class="small">Need a nudge? Tap one to start from it.</p>
+  <p class="small" style="margin-top:0">Swipe and tap one to start from it, or write your own.</p>
   <div class="chiprow" id="taskChips"></div>
+  <label class="lead" for="task" style="margin-top:24px">I wish I did not have to…</label>
+  <textarea class="field" id="task" maxlength="240" rows="2" placeholder="…copy form answers into a spreadsheet every week"></textarea>
 </section>
 
 <!-- 4 votes -->
